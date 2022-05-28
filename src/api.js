@@ -29,7 +29,7 @@ const lastYear = `${currentYear - 1} -${currentMonth}-${currentDay}`;
 const currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
 const nextYear = `${currentYear + 1} -${currentMonth}-${currentDay}`;
 
-const popular_games = `games?dates=${lastYear},${currentDate}&ordering=-rating&page_size=10`;
+const popular_games = `games?key=${process.env.REACT_APP_API_KEY}&dates=${lastYear},${currentDate}&ordering=-rating&page=2&page_size=10`;
 
 
-export const popularGamesURL=()=> `${base_url}${popular_games}?key=${process.env.REACT_APP_API_KEY}`
+export const popularGamesURL=()=> `${base_url}${popular_games}`
