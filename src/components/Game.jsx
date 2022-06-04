@@ -2,12 +2,39 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion/dist/framer-motion";
 
-const Game = ({ name, released, image }) => {
+import { useDispatch } from "react-redux";
+import {loadDetail} from "../actions/detailAction";
+import { Link } from "react-router-dom";
+import { popup } from "../animation";
+import { smallImage } from "../util";
+
+
+const Game = ({ name, released, image, id }) => {
+  const dispatch = useDispatch();
+  const loadDetailHandler = () => {
+    document.body.style.overflow = "hidden";
+    dispatch(loadDetail(id));
+  };
+
+  const stringPathId = id.toString();
+
   return (
-    <StyledGame>
-      <h3> {name}</h3>
-      <p>{released}</p>
-      <img src={image} alt={name} />
+    <StyledGame
+      layoutId={id}
+      onClick={loadDetailHandler}
+      variants={popup}
+      initial="hidden"
+      animate="show"
+    >
+      <Link to={`/game/${id}`}>
+        <motion.h3 layoutId={`title ${stringPathId}`}>{name}</motion.h3>
+        <p>{released}</p>
+        <motion.img
+          layoutId={`image ${stringPathId}`}
+          src={smallImage(image, 640)}
+          alt={name}
+        />
+      </Link>
     </StyledGame>
   );
 };
@@ -19,9 +46,12 @@ const StyledGame = styled(motion.div)`
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
   text-align: center;
   border-radius: 1rem;
+  cursor: pointer;
+  overflow: hidden;
 
   img {
     width: 100%;
     height: 40vh;
+    object-fit: cover;
   }
 `;
