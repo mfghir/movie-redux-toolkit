@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { motion } from "framer-motion/dist/framer-motion";
 
 import { useDispatch } from "react-redux";
-import {loadDetail} from "../actions/detailAction";
+import { loadDetail } from "../actions/detailAction";
 import { Link } from "react-router-dom";
 import { popup } from "../animation";
 import { smallImage } from "../util";
 
-
-const Game = ({ name, released, image, id }) => {
+const Movie = ({ title, released, image, id }) => {
+  
   const dispatch = useDispatch();
   const loadDetailHandler = () => {
     document.body.style.overflow = "hidden";
@@ -19,29 +19,26 @@ const Game = ({ name, released, image, id }) => {
   const stringPathId = id.toString();
 
   return (
-    <StyledGame
+    <StyledMovie
       layoutId={id}
       onClick={loadDetailHandler}
       variants={popup}
       initial="hidden"
       animate="show"
     >
-      <Link to={`/game/${id}`}>
-        <motion.h3 layoutId={`title ${stringPathId}`}>{name}</motion.h3>
-        <p>{released}</p>
-        <motion.img
-          layoutId={`image ${stringPathId}`}
-          src={smallImage(image, 640)}
-          alt={name}
-        />
-      </Link>
-    </StyledGame>
+      {/* <Link to={`/game/${id}`}> */}
+      {/* <motion.h3 layoutId={`title ${stringPathId}`}>{title}</motion.h3> */}
+      <motion.h3 layoutId="title">{title}</motion.h3>
+      <p>{released}</p>
+      <motion.img layoutId="image" src={image} alt={title} />
+      {/* </Link> */}
+    </StyledMovie>
   );
 };
 
-export default Game;
+export default Movie;
 
-const StyledGame = styled(motion.div)`
+const StyledMovie = styled(motion.div)`
   min-height: 30vh;
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
   text-align: center;

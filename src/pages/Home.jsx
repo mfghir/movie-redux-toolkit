@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import Game from "../components/Game";
+import Movie from "../components/Movie";
 import GameDetail from "../components/GameDetail";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import {
   AnimateSharedLayout,
 } from "framer-motion/dist/framer-motion";
 import { fadeIn } from "../animation";
+import {  getAsyncPopularMovies } from "../redux/reducers/popularSlice";
 
 const Home = () => {
   const location = useLocation();
@@ -20,20 +21,22 @@ const Home = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadGames());
-  }, [dispatch]);
+    // dispatch(loadGames());
+    dispatch(getAsyncPopularMovies());
+  }, []);
+  // }, [dispatch]);
 
-  const { popular, newGames, upcoming, searched } = useSelector(
-    (state) => state.games
+  const { popular, error, newMovies, upcoming, searched } = useSelector(
+    (state) => state.popular
   );
 
   return (
-    <GameList variants={fadeIn} initial="hidden" animate="show">
+    <MovieList variants={fadeIn} initial="hidden" animate="show">
       <AnimateSharedLayout type="crossfade">
         <AnimatePresence>
           {pathId && <GameDetail pathId={pathId} />}
         </AnimatePresence>
-
+        {/* 
         {searched.length ? (
           <div className="searched">
             <h2>Searched Games</h2>
@@ -51,51 +54,60 @@ const Home = () => {
           </div>
         ) : (
           ""
+        )} */}
+        <h2>Upcoming Movies</h2>
+        <Movies>
+          {upcoming.map((movie) => (
+            <Movie
+              name={movie.name}
+              released={movie.released}
+              id={movie.id}
+              image={movie.background_image}
+              key={movie.id}
+            />
+          ))}
+        </Movies>
+
+        {error ? (
+          <h1>{error}</h1>
+        ) : (
+          <>
+            <h2>Popular Movies</h2>
+            <Movies>
+              {popular.map((movie) => (
+                <Movie
+                  title={movie.title}
+                  released={movie.year}
+                  id={movie.id}
+                  image={movie.image}
+                  key={movie.id}
+                  {...movie}
+                />
+              ))}
+            </Movies>
+          </>
         )}
-        <h2>Upcoming Games</h2>
-        <Games>
-          {upcoming.map((game) => (
-            <Game
-              name={game.name}
-              released={game.released}
-              id={game.id}
-              image={game.background_image}
-              key={game.id}
+
+        <h2>New Movies</h2>
+        <Movies>
+          {newMovies.map((movie) => (
+            <Movie
+              name={movie.name}
+              released={movie.released}
+              id={movie.id}
+              image={movie.background_image}
+              key={movie.id}
             />
           ))}
-        </Games>
-        <h2>Popular Games</h2>
-        <Games>
-          {popular.map((game) => (
-            <Game
-              name={game.name}
-              released={game.released}
-              id={game.id}
-              image={game.background_image}
-              key={game.id}
-            />
-          ))}
-        </Games>
-        <h2>New Games</h2>
-        <Games>
-          {newGames.map((game) => (
-            <Game
-              name={game.name}
-              released={game.released}
-              id={game.id}
-              image={game.background_image}
-              key={game.id}
-            />
-          ))}
-        </Games>
+        </Movies>
       </AnimateSharedLayout>
-    </GameList>
+    </MovieList>
   );
 };
 
 export default Home;
 
-const GameList = styled(motion.div)`
+const MovieList = styled(motion.div)`
   padding: 0 5rem;
 
   h2 {
@@ -103,7 +115,7 @@ const GameList = styled(motion.div)`
   }
 `;
 
-const Games = styled(motion.div)`
+const Movies = styled(motion.div)`
   min-height: 80vh;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
