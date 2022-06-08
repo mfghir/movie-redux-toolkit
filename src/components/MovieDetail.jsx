@@ -16,11 +16,12 @@ import starEmpty from "../img/star-empty.png";
 import starFull from "../img/star-full.png";
 import { smallImage } from "../util";
 
-const GameDetail = ({ pathId }) => {
+const MovieDetail = ({ pathId }) => {
   const { screen, game, isLoading } = useSelector((state) => state.detail);
   const navigate = useNavigate(); // usehistory
 
   const exitDetailHandler = (e) => {
+    
     const element = e.target;
     if (element.classList.contains("shadow")) {
       document.body.style.overflow = "auto";
@@ -28,37 +29,37 @@ const GameDetail = ({ pathId }) => {
     }
   };
 
-  const getRating = () => {
-    const stars = [];
-    const rating = Math.floor(game.rating);
+  // const getRating = () => {
+  //   const stars = [];
+  //   const rating = Math.floor(game.rating);
 
-    for (let i = 1; i <= 5; i++) {
-      if (i <= rating) {
-        stars.push(<img alt="star" key={i} src={starFull} />);
-      } else {
-        stars.push(<img alt="star" key={i} src={starEmpty} />);
-      }
-    }
+  //   for (let i = 1; i <= 5; i++) {
+  //     if (i <= rating) {
+  //       stars.push(<img alt="star" key={i} src={starFull} />);
+  //     } else {
+  //       stars.push(<img alt="star" key={i} src={starEmpty} />);
+  //     }
+  //   }
 
-    return stars;
-  };
+  //   return stars;
+  // };
 
-  const getPlatform = (platform) => {
-    switch (platform) {
-      case "PlayStation 4":
-        return playstation;
-      case "Xbox One":
-        return xbox;
-      case "PC":
-        return steam;
-      case "Nintendo Switch":
-        return nintendo;
-      case "iOS":
-        return apple;
-      default:
-        return gamepad;
-    }
-  };
+  // const getPlatform = (platform) => {
+  //   switch (platform) {
+  //     case "PlayStation 4":
+  //       return playstation;
+  //     case "Xbox One":
+  //       return xbox;
+  //     case "PC":
+  //       return steam;
+  //     case "Nintendo Switch":
+  //       return nintendo;
+  //     case "iOS":
+  //       return apple;
+  //     default:
+  //       return gamepad;
+  //   }
+  // };
 
   return (
     <>
@@ -69,18 +70,18 @@ const GameDetail = ({ pathId }) => {
               <div className="rating">
                 <motion.h3 layoutId={`title ${pathId}`}>{game.name}</motion.h3>
                 <p>Rating: {game.rating}</p>
-                {getRating()}
+                {/* {getRating()} */}
               </div>
               <Info>
                 <h3>Platforms</h3>
                 <Platforms>
-                  {game.platforms.map((data) => (
+                  {/* {game.platforms.map((data) => (
                     <img
                       alt={data.platform.name}
                       key={data.platform.id}
                       src={getPlatform(data.platform.name)}
                     />
-                  ))}
+                  ))} */}
                 </Platforms>
               </Info>
             </Stats>
@@ -113,7 +114,7 @@ const GameDetail = ({ pathId }) => {
   );
 };
 
-export default GameDetail;
+export default MovieDetail;
 
 const CardShadow = styled(motion.div)`
   width: 100%;

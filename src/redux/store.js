@@ -1,12 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import newMoviesSlice from "./reducers/newMoviesSlice";
-import popularSlice from "./reducers/popularSlice";
-import upcomingSlice from "./reducers/upcomingSlice";
+import moviesSlice from "./reducers/moviesSlice";
 
 export const store = configureStore({
   reducer: {
-    popular: popularSlice,
-    newMovies: newMoviesSlice,
-    upcoming: upcomingSlice,
+    popularMovies: moviesSlice,
+    upcoming: moviesSlice,
+    popularTvs: moviesSlice,
   },
 });

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import logo from "../img/logo.svg";
 import { useDispatch } from "react-redux";
-import { fetchSearch } from "../actions/gamesAction";
+// import { fetchSearch } from "../actions/gamesAction";
 import { fadeIn } from "../animation";
 
 const Nav = () => {
@@ -17,11 +17,11 @@ const Nav = () => {
 
   const submitSearch = (e) => {
     e.preventDefault();
-    dispatch(fetchSearch(textInput));
+    // dispatch(fetchSearch(textInput));
     setTextInput("");
   };
   const clearSearched = () => {
-    dispatch({ type: "CLEAR_SEARCHED" });
+    // dispatch({ type: "CLEAR_SEARCHED" });
   };
   return (
     <StyledNav variants={fadeIn} initial="hidden" animate="show">

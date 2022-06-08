@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion/dist/framer-motion";
 
 import { useDispatch } from "react-redux";
-import { loadDetail } from "../actions/detailAction";
+// import { loadDetail } from "../actions/detailAction";
 import { Link } from "react-router-dom";
 import { popup } from "../animation";
 import { smallImage } from "../util";
@@ -13,10 +13,10 @@ const Movie = ({ title, released, image, id }) => {
   const dispatch = useDispatch();
   const loadDetailHandler = () => {
     document.body.style.overflow = "hidden";
-    dispatch(loadDetail(id));
+    // dispatch(loadDetail(id));
   };
 
-  const stringPathId = id.toString();
+  // const stringPathId = id.toString();
 
   return (
     <StyledMovie

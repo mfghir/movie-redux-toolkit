@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import Movie from "../components/Movie";
-import GameDetail from "../components/GameDetail";
+import MovieDetail from "../components/MovieDetail";
+
+// import { loadGames } from "../actions/gamesAction";
 
 import { useDispatch, useSelector } from "react-redux";
-import { loadGames } from "../actions/gamesAction";
 import { useLocation } from "react-router-dom";
 import {
   motion,
@@ -13,43 +14,50 @@ import {
   AnimateSharedLayout,
 } from "framer-motion/dist/framer-motion";
 import { fadeIn } from "../animation";
-import {  getAsyncPopularMovies } from "../redux/reducers/popularSlice";
+
+import {
+  getAsyncPopularMovies,
+  getAsyncPopularTvs,
+  getAsyncUpcoming,
+} from "../redux/reducers/moviesSlice";
 
 const Home = () => {
   const location = useLocation();
-  const pathId = location.pathname.split("/")[2];
+  // const pathId = location.pathname.split("/")[2];
 
   const dispatch = useDispatch();
   useEffect(() => {
     // dispatch(loadGames());
     dispatch(getAsyncPopularMovies());
-  }, []);
+    dispatch(getAsyncPopularTvs());
+    dispatch(getAsyncUpcoming());
+  }, [dispatch]);
   // }, [dispatch]);
 
-  const { popular, error, newMovies, upcoming, searched } = useSelector(
-    (state) => state.popular
+  const { popularMovies, error, upcoming, popularTvs, searched } = useSelector(
+    (state) => state.movies
   );
 
   return (
     <MovieList variants={fadeIn} initial="hidden" animate="show">
       <AnimateSharedLayout type="crossfade">
         <AnimatePresence>
-          {pathId && <GameDetail pathId={pathId} />}
+          {/* {pathId && <MovieDetail pathId={pathId} />} */}
         </AnimatePresence>
         {/* 
         {searched.length ? (
           <div className="searched">
             <h2>Searched Games</h2>
             <Games>
-              {searched.map((game) => (
-                <Game
-                  name={game.name}
-                  released={game.released}
-                  id={game.id}
-                  image={game.background_image}
-                  key={game.id}
-                />
-              ))}
+                  {upcoming.map((movie) => (
+            <Movie
+              title={movie.title}
+              released={movie.year}
+              id={movie.id}
+              image={movie.image}
+              key={movie.id}
+            />
+          ))}
             </Games>
           </div>
         ) : (
@@ -59,10 +67,10 @@ const Home = () => {
         <Movies>
           {upcoming.map((movie) => (
             <Movie
-              name={movie.name}
-              released={movie.released}
+              title={movie.title}
+              released={movie.year}
               id={movie.id}
-              image={movie.background_image}
+              image={movie.image}
               key={movie.id}
             />
           ))}
@@ -74,7 +82,7 @@ const Home = () => {
           <>
             <h2>Popular Movies</h2>
             <Movies>
-              {popular.map((movie) => (
+              {popularMovies?.map((movie) => (
                 <Movie
                   title={movie.title}
                   released={movie.year}
@@ -90,12 +98,12 @@ const Home = () => {
 
         <h2>New Movies</h2>
         <Movies>
-          {newMovies.map((movie) => (
+          {popularTvs.map((movie) => (
             <Movie
-              name={movie.name}
-              released={movie.released}
+              title={movie.title}
+              released={movie.year}
               id={movie.id}
-              image={movie.background_image}
+              image={movie.image}
               key={movie.id}
             />
           ))}
