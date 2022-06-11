@@ -12,7 +12,7 @@ function App() {
       <Nav />
       <Routes>
         {/* <Route path={["/game/:id", "/"]} element={<Home />} /> */}
-        <Route path="/game/:id" element={<Home />} />
+        <Route path="/:id" element={<Home />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </div>

@@ -5,23 +5,15 @@ import { motion } from "framer-motion/dist/framer-motion";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import playstation from "../img/playstation.svg";
-import steam from "../img/steam.svg";
-import xbox from "../img/xbox.svg";
-import nintendo from "../img/nintendo.svg";
-import apple from "../img/apple.svg";
-import gamepad from "../img/gamepad.svg";
-//Star Images
-import starEmpty from "../img/star-empty.png";
-import starFull from "../img/star-full.png";
+
 import { smallImage } from "../util";
 
-const MovieDetail = ({ pathId }) => {
-  const { screen, game, isLoading } = useSelector((state) => state.detail);
+const MovieDetail = ({ pathId ,detail}) => {
+
+
   const navigate = useNavigate(); // usehistory
 
   const exitDetailHandler = (e) => {
-    
     const element = e.target;
     if (element.classList.contains("shadow")) {
       document.body.style.overflow = "auto";
@@ -44,72 +36,59 @@ const MovieDetail = ({ pathId }) => {
   //   return stars;
   // };
 
-  // const getPlatform = (platform) => {
-  //   switch (platform) {
-  //     case "PlayStation 4":
-  //       return playstation;
-  //     case "Xbox One":
-  //       return xbox;
-  //     case "PC":
-  //       return steam;
-  //     case "Nintendo Switch":
-  //       return nintendo;
-  //     case "iOS":
-  //       return apple;
-  //     default:
-  //       return gamepad;
-  //   }
-  // };
 
   return (
     <>
-      {!isLoading && (
-        <CardShadow className="shadow" onClick={exitDetailHandler}>
-          <Detail layoutId={pathId}>
-            <Stats>
-              <div className="rating">
-                <motion.h3 layoutId={`title ${pathId}`}>{game.name}</motion.h3>
-                <p>Rating: {game.rating}</p>
-                {/* {getRating()} */}
-              </div>
-              <Info>
-                <h3>Platforms</h3>
-                <Platforms>
-                  {/* {game.platforms.map((data) => (
-                    <img
-                      alt={data.platform.name}
-                      key={data.platform.id}
-                      src={getPlatform(data.platform.name)}
-                    />
-                  ))} */}
-                </Platforms>
-              </Info>
-            </Stats>
-
-            <Media>
-              <motion.img
-                layoutId={`image ${pathId}`}
-                src={smallImage(game.background_image, 1280)}
-                alt={game.background_image}
-              />
-            </Media>
-
-            <Description>
-              <p>{game.description_raw}</p>
-            </Description>
-
-            <div className="gallery">
-              {screen.results.map((screen) => (
-                <img
-                  src={smallImage(screen.image, 1280)}
-                  key={screen.id}
-                  alt={screen.image}
-                />
-              ))}
+      {/* {!isLoading && ( */}
+      <CardShadow className="shadow" onClick={exitDetailHandler}>
+        <Detail layoutId={pathId}>
+          <Stats>
+            <div className="rating">
+              <motion.h3 layoutId={`title ${pathId}`}>
+                {detail.fullTitle}
+              </motion.h3>
+              <p>Rating: {detail.imDbRating}</p>
             </div>
-          </Detail>
-        </CardShadow>
-      )}
+
+            <Info>
+              {/* <h3>description:</h3> */}
+              {/* <Platforms>
+                {detail.posters.map((data) => (
+                  <img
+                    key={data.posters.imDbId}
+                    src={data.posters.link}
+                    alt={data.posters.title}
+                  />
+                ))}
+              </Platforms> */}
+            </Info>
+          </Stats>
+
+          <Media>
+            <motion.img
+              layoutId={`image ${pathId}`}
+              src={detail.image}
+              alt={detail.title}
+            />
+          </Media>
+
+          <Description>
+            <p>{detail.plot}</p>
+          </Description>
+
+          <div className="gallery">
+            {/* {detail.posters.map((poster) => ( */}
+              {/* <img */}
+                {/* // src={smallImage(screen.image, 1280)}
+                // key={detail.posters.imDbId}
+                // src={detail.posters.link}
+                // alt={detail.posters.title} */}
+              {/* // /> */}
+            {/* ))} */}
+          </div>
+        </Detail>
+      </CardShadow>
+      {/* )} */}
     </>
   );
 };

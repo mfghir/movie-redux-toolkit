@@ -1,45 +1,19 @@
-const base_url = "https://api.rawg.io/api/";
+const base_url = "https://imdb-api.com/en/API/";
 
-// getting date
-const getCurrentMonth = () => {
-  const month = new Date().getMonth() + 1;
-  //   console.log(month);
-  if (month < 10) {
-    return `0${month}`;
-  } else {
-    return month;
-  }
-};
 
-const getCurrentDay = () => {
-  const day = new Date().getDay();
-  //   console.log(day);
-  if (day < 10) {
-    return `0${day}`;
-  } else {
-    return day;
-  }
-};
+const popular_movies = `MostPopularMovies/${process.env.REACT_APP_MOVIE_API}`;
+const popular_tvs = `MostPopularTVs/${process.env.REACT_APP_MOVIE_API}`;
+const upcoming = `ComingSoon/${process.env.REACT_APP_MOVIE_API}`;
 
-// year/month/day
-const currentYear = new Date().getFullYear();
-const currentMonth = getCurrentMonth();
-const currentDay = getCurrentDay();
+const search = `Search/${process.env.REACT_APP_MOVIE_API}`;
+const detail = `Title/${process.env.REACT_APP_MOVIE_API}`;
 
-const lastYear = `${currentYear - 1} -${currentMonth}-${currentDay}`;
-const currentDate = `${currentYear}-${currentMonth}-${currentDay}`;
-const nextYear = `${currentYear + 1} -${currentMonth}-${currentDay}`;
 
-const popular_games = `games?key=${process.env.REACT_APP_GAME_API}&dates=${lastYear},${currentDate}&ordering=-rating&page_size=10`;
-const upcoming_games = `games?key=${process.env.REACT_APP_GAME_API}&dates=${currentDate},${nextYear}&ordering=-added&page_size=10`;
-const new_games = `games?key=${process.env.REACT_APP_GAME_API}&dates=${lastYear},${currentDate}&ordering=-released&page_size=10`;
 
-export const popularGamesURL = () => `https://fakestoreapi.com/products`
-export const upcomingGamesURL = () => `${base_url}${upcoming_games}`;
-export const newGamesURL = () => `${base_url}${new_games}`;
+export const popularMoviesURL = () =>  `${base_url}${popular_movies}`;
+export const populartvsURL = () => `${base_url}${popular_tvs}`;
+export const upcomingURL = () => `${base_url}${upcoming}`;
 
-export const gameDetailsURL = (game_id) => `${base_url}games?key=${process.env.REACT_APP_GAME_API}/${game_id}`;
-export const gameScreenShotURL = (game_id) =>
-  `${base_url}games?key=${process.env.REACT_APP_GAME_API}/${game_id}/screen_shot`;
-export const searchGameURL = (game_name) =>
-  `${base_url}games?key=${process.env.REACT_APP_GAME_API}&search=${game_name}&page_size=9`;
+export const searchURL = (expression) => `${base_url}${search}/${expression}`;
+export const detailURL = (movie_id) => `${base_url}${detail}/${movie_id}`;
+

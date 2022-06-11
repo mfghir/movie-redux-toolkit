@@ -26,12 +26,12 @@ const Movie = ({ title, released, image, id }) => {
       initial="hidden"
       animate="show"
     >
-      {/* <Link to={`/game/${id}`}> */}
-      {/* <motion.h3 layoutId={`title ${stringPathId}`}>{title}</motion.h3> */}
+      {/* <Link to={`/Title/${process.env.REACT_APP_MOVIE_API}/${id}/FullActor,FullCast,Posters,Images,Trailer,Ratings,Wikipedia`}> */}
+      <Link to={`/${id}`}>
       <motion.h3 layoutId="title">{title}</motion.h3>
       <p>{released}</p>
       <motion.img layoutId="image" src={image} alt={title} />
-      {/* </Link> */}
+      </Link>
     </StyledMovie>
   );
 };

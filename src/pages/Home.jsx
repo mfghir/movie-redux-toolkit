@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState} from "react";
 import styled from "styled-components";
 
 import Movie from "../components/Movie";
@@ -14,16 +14,16 @@ import {
   AnimateSharedLayout,
 } from "framer-motion/dist/framer-motion";
 import { fadeIn } from "../animation";
-
-import {
-  getAsyncPopularMovies,
-  getAsyncPopularTvs,
-  getAsyncUpcoming,
-} from "../redux/reducers/moviesSlice";
+import { getAsyncPopularMovies } from "../redux/reducers/popularMoviesSlice";
+import { getAsyncPopularTvs } from "../redux/reducers/tvSlice";
+import { getAsyncUpcoming } from "../redux/reducers/upcomingSlice";
+import { getAsyncDetail } from "../redux/reducers/detailSlice";
+import { getAsyncSearch } from "../redux/reducers/searchSlice";
 
 const Home = () => {
-  const location = useLocation();
+  // const location = useLocation();
   // const pathId = location.pathname.split("/")[2];
+  const [limit, setLimit] = useState(9);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,41 +31,52 @@ const Home = () => {
     dispatch(getAsyncPopularMovies());
     dispatch(getAsyncPopularTvs());
     dispatch(getAsyncUpcoming());
+    dispatch(getAsyncDetail());
+    dispatch(getAsyncSearch());
+  // }, []);
   }, [dispatch]);
-  // }, [dispatch]);
 
-  const { popularMovies, error, upcoming, popularTvs, searched } = useSelector(
-    (state) => state.movies
-  );
+  const { popularMovies } = useSelector((state) => state.popularMovies);
+  const { upcoming } = useSelector((state) => state.upcoming);
+  const { popularTvs } = useSelector((state) => state.popularTvs);
+
+  const { search } = useSelector((state) => state.search);
+
+  const { detail } = useSelector((state) => state.detail);
+  const pathId = popularMovies.id || popularTvs.id || upcoming.id;
 
   return (
     <MovieList variants={fadeIn} initial="hidden" animate="show">
       <AnimateSharedLayout type="crossfade">
         <AnimatePresence>
-          {/* {pathId && <MovieDetail pathId={pathId} />} */}
+          {pathId && <MovieDetail pathId={pathId} detail={detail} /> &&
+            console.log(pathId)}
         </AnimatePresence>
-        {/* 
-        {searched.length ? (
+
+        {search.length ? (
           <div className="searched">
-            <h2>Searched Games</h2>
-            <Games>
-                  {upcoming.map((movie) => (
-            <Movie
-              title={movie.title}
-              released={movie.year}
-              id={movie.id}
-              image={movie.image}
-              key={movie.id}
-            />
-          ))}
-            </Games>
+            <h2>Searched Movies</h2>
+            <Movies>
+              {search.map((movie) => (
+                <Movie
+                  title={movie.title}
+                  released={movie.year}
+                  id={movie.id}
+                  image={movie.image}
+                  key={movie.id}
+                />
+              ))}
+            </Movies>
           </div>
         ) : (
           ""
-        )} */}
+        )}
+
+
+
         <h2>Upcoming Movies</h2>
         <Movies>
-          {upcoming.map((movie) => (
+          {upcoming.slice(0, limit ? limit : upcoming.length).map((movie) => (
             <Movie
               title={movie.title}
               released={movie.year}
@@ -76,29 +87,29 @@ const Home = () => {
           ))}
         </Movies>
 
-        {error ? (
+        {/* {error ? (
           <h1>{error}</h1>
-        ) : (
-          <>
-            <h2>Popular Movies</h2>
-            <Movies>
-              {popularMovies?.map((movie) => (
-                <Movie
-                  title={movie.title}
-                  released={movie.year}
-                  id={movie.id}
-                  image={movie.image}
-                  key={movie.id}
-                  {...movie}
-                />
-              ))}
-            </Movies>
-          </>
-        )}
+        ) : ( */}
+        <>
+          <h2>Popular Movies</h2>
+          <Movies>
+            {popularMovies.slice(0, limit ? limit : popularMovies.length).map((movie) => (
+              <Movie
+                title={movie.title}
+                released={movie.year}
+                id={movie.id}
+                image={movie.image}
+                key={movie.id}
+                {...movie}
+              />
+            ))}
+          </Movies>
+        </>
+        {/* )} */}
 
         <h2>New Movies</h2>
         <Movies>
-          {popularTvs.map((movie) => (
+          {popularTvs.slice(0, limit ? limit : popularMovies.length).map((movie) => (
             <Movie
               title={movie.title}
               released={movie.year}
@@ -116,7 +127,7 @@ const Home = () => {
 export default Home;
 
 const MovieList = styled(motion.div)`
-  padding: 0 5rem;
+  padding: 0rem 5rem 5rem 5rem;
 
   h2 {
     padding: 5rem 0;
@@ -126,7 +137,7 @@ const MovieList = styled(motion.div)`
 const Movies = styled(motion.div)`
   min-height: 80vh;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-column-gap: 3rem;
   grid-row-gap: 5rem;
 `;
