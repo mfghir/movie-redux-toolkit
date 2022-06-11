@@ -12,11 +12,16 @@ const Nav = () => {
   const dispatch = useDispatch();
   const [textInput, setTextInput] = useState("");
 
+  // const [filter, setFilter] = useState("")
+  // const {search} = useSelector(state => state.search)
+  // const filteredJobs = useMemo(() => search.filter(job => job.startsWith(filter), [filter]);
+
   const submitSearch = (e) => {
     e.preventDefault();
-    dispatch(getAsyncSearch(textInput));
-    // setTextInput("");
+    dispatch(getAsyncSearch({ searchInput: textInput }));
+    setTextInput("");
   };
+
   // const clearSearched = () => {
   //   dispatch({ type: "CLEAR_SEARCHED" });
   // };

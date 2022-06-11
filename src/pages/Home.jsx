@@ -32,7 +32,7 @@ const Home = () => {
     dispatch(getAsyncPopularTvs());
     dispatch(getAsyncUpcoming());
     dispatch(getAsyncDetail());
-    dispatch(getAsyncSearch());
+    // dispatch(getAsyncSearch());
   // }, []);
   }, [dispatch]);
 

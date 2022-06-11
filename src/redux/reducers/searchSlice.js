@@ -6,14 +6,17 @@ export const getAsyncSearch = createAsyncThunk(
   "search/getAsyncSearch",
   async (payload, { rejectWithValue }) => {
     try {
-      // const res = await axios.put(searchURL(payload.id),{
-      //   title: payload.title,
-      //   released: payload.year,
-      //   image: payload.image,
-      // });
+      // const res = await axios.put(searchURL(payload))
 
-      // const res = await axios.put(searchURL(payload.value));
-      const res = await axios.get(`https://imdb-api.com/en/API/Search/k_2ktr4wnl/${payload.textInput}`);
+      const res = await axios.get(searchURL(payload.searchInput),{
+        // id: payload.id,
+        // search: payload.searchInput,
+        // title: payload.title,
+        // released: payload.year,
+        // image: payload.image,
+      });
+
+      console.log(res.data)
       return res.data;
     } catch (error) {
       return rejectWithValue([], error);
@@ -31,7 +34,10 @@ const searchSlice = createSlice({
 
   extraReducers: {
     [getAsyncSearch.fulfilled]: (state, action) => {
-      return { ...state, search: action.payload, error: null };
+      // return { ...state, search: action.payload, error: null };
+      // return { ...state,state.search.push(action.payload), error: null };
+      state.search.push(action.payload)
+
     },
     [getAsyncSearch.rejected]: (state, action) => {
       return {
