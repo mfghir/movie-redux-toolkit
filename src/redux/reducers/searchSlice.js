@@ -6,18 +6,9 @@ export const getAsyncSearch = createAsyncThunk(
   "search/getAsyncSearch",
   async (payload, { rejectWithValue }) => {
     try {
-      // const res = await axios.put(searchURL(payload))
-
-      const res = await axios.get(searchURL(payload.searchInput),{
-        // id: payload.id,
-        // search: payload.searchInput,
-        // title: payload.title,
-        // released: payload.year,
-        // image: payload.image,
-      });
-
-      console.log(res.data)
-      return res.data;
+      const res = await axios.get(searchURL(payload.searchInput));
+      // console.log(res.data.results);
+      return res.data.results;
     } catch (error) {
       return rejectWithValue([], error);
     }
@@ -34,10 +25,7 @@ const searchSlice = createSlice({
 
   extraReducers: {
     [getAsyncSearch.fulfilled]: (state, action) => {
-      // return { ...state, search: action.payload, error: null };
-      // return { ...state,state.search.push(action.payload), error: null };
-      state.search.push(action.payload)
-
+      return { ...state, search: action.payload, error: null };
     },
     [getAsyncSearch.rejected]: (state, action) => {
       return {
