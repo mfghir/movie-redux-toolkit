@@ -2,18 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion/dist/framer-motion";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import { loadDetail } from "../actions/detailAction";
 import { Link } from "react-router-dom";
 import { popup } from "../animation";
 import { smallImage } from "../util";
+import { getAsyncDetail } from "../redux/reducers/detailSlice";
 
 const Movie = ({ title, released, image, id }) => {
-  
+
   const dispatch = useDispatch();
   const loadDetailHandler = () => {
     document.body.style.overflow = "hidden";
-    // dispatch(loadDetail(id));
+    dispatch(getAsyncDetail({id}));
   };
 
   // const stringPathId = id.toString();
@@ -26,11 +27,10 @@ const Movie = ({ title, released, image, id }) => {
       initial="hidden"
       animate="show"
     >
-      {/* <Link to={`/Title/${process.env.REACT_APP_MOVIE_API}/${id}/FullActor,FullCast,Posters,Images,Trailer,Ratings,Wikipedia`}> */}
-      <Link to={`/${id}`}>
-      <motion.h3 layoutId="title">{title}</motion.h3>
-      <p>{released}</p>
-      <motion.img layoutId="image" src={image} alt={title} />
+      <Link to={`${id}`}>
+        <motion.h3 layoutId="title">{title}</motion.h3>
+        <p>{released}</p>
+        <motion.img layoutId="image" src={image} alt={title} />
       </Link>
     </StyledMovie>
   );

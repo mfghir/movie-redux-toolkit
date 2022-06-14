@@ -1,4 +1,4 @@
-import React, { useEffect ,useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Movie from "../components/Movie";
@@ -21,19 +21,19 @@ import { getAsyncDetail } from "../redux/reducers/detailSlice";
 import { getAsyncSearch } from "../redux/reducers/searchSlice";
 
 const Home = () => {
-  // const location = useLocation();
-  // const pathId = location.pathname.split("/")[2];
   const [limit, setLimit] = useState(9);
-
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  const pathId = location.pathname;
+
   useEffect(() => {
-    // dispatch(loadGames());
     dispatch(getAsyncPopularMovies());
     dispatch(getAsyncPopularTvs());
     dispatch(getAsyncUpcoming());
-    dispatch(getAsyncDetail());
-    // dispatch(getAsyncSearch());
-  // }, []);
+    dispatch(getAsyncSearch());
+
+    dispatch(getAsyncDetail({ id:pathId }));
   }, [dispatch]);
 
   const { popularMovies } = useSelector((state) => state.popularMovies);
@@ -41,16 +41,16 @@ const Home = () => {
   const { popularTvs } = useSelector((state) => state.popularTvs);
 
   const { search } = useSelector((state) => state.search);
-
-  const { detail } = useSelector((state) => state.detail);
-  const pathId = popularMovies.id || popularTvs.id || upcoming.id;
+  // const { detail } = useSelector((state) => state.detail);
 
   return (
     <MovieList variants={fadeIn} initial="hidden" animate="show">
       <AnimateSharedLayout type="crossfade">
         <AnimatePresence>
-          {pathId && <MovieDetail pathId={pathId} detail={detail} /> &&
-            console.log(pathId)}
+          {pathId && <MovieDetail pathId={pathId}  /> &&
+          console.log('first :' , pathId )
+
+          } 
         </AnimatePresence>
 
         {search.length ? (
@@ -72,8 +72,6 @@ const Home = () => {
           ""
         )}
 
-
-
         <h2>Upcoming Movies</h2>
         <Movies>
           {upcoming.slice(0, limit ? limit : upcoming.length).map((movie) => (
@@ -83,17 +81,16 @@ const Home = () => {
               id={movie.id}
               image={movie.image}
               key={movie.id}
+              // onClick={()=>dispatch(getAsyncDetail({id: movie.id}))}
             />
           ))}
         </Movies>
 
-        {/* {error ? (
-          <h1>{error}</h1>
-        ) : ( */}
-        <>
-          <h2>Popular Movies</h2>
-          <Movies>
-            {popularMovies.slice(0, limit ? limit : popularMovies.length).map((movie) => (
+        <h2>Popular Movies</h2>
+        <Movies>
+          {popularMovies
+            .slice(0, limit ? limit : popularMovies.length)
+            .map((movie) => (
               <Movie
                 title={movie.title}
                 released={movie.year}
@@ -103,21 +100,21 @@ const Home = () => {
                 {...movie}
               />
             ))}
-          </Movies>
-        </>
-        {/* )} */}
+        </Movies>
 
         <h2>New Movies</h2>
         <Movies>
-          {popularTvs.slice(0, limit ? limit : popularMovies.length).map((movie) => (
-            <Movie
-              title={movie.title}
-              released={movie.year}
-              id={movie.id}
-              image={movie.image}
-              key={movie.id}
-            />
-          ))}
+          {popularTvs
+            .slice(0, limit ? limit : popularMovies.length)
+            .map((movie) => (
+              <Movie
+                title={movie.title}
+                released={movie.year}
+                id={movie.id}
+                image={movie.image}
+                key={movie.id}
+              />
+            ))}
         </Movies>
       </AnimateSharedLayout>
     </MovieList>

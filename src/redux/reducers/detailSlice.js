@@ -4,9 +4,11 @@ import { detailURL } from "../../api";
 
 export const getAsyncDetail = createAsyncThunk(
   "detail/getAsyncDetail",
-  async (_, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     try {
-      const res = await axios.get(detailURL());
+      const res = await axios.get(detailURL(payload.id));
+
+      console.log(res.data);
       return res.data;
     } catch (error) {
       return rejectWithValue(error);

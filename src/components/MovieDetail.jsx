@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import { motion } from "framer-motion/dist/framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-
 import { smallImage } from "../util";
+import { getAsyncDetail } from "../redux/reducers/detailSlice";
 
-const MovieDetail = ({ pathId ,detail}) => {
+
+
+const MovieDetail = ({ pathId }) => {
+  const { detail } = useSelector((state) => state.detail);
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getAsyncDetail({id: pathId}));
+  // }, [dispatch]);
 
 
   const navigate = useNavigate(); // usehistory
-
   const exitDetailHandler = (e) => {
     const element = e.target;
     if (element.classList.contains("shadow")) {
@@ -45,7 +51,7 @@ const MovieDetail = ({ pathId ,detail}) => {
           <Stats>
             <div className="rating">
               <motion.h3 layoutId={`title ${pathId}`}>
-                {detail.fullTitle}
+                {detail.title}
               </motion.h3>
               <p>Rating: {detail.imDbRating}</p>
             </div>

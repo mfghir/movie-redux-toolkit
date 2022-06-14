@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 import logo from "../img/logo.svg";
 import { useDispatch } from "react-redux";
-// import { fetchSearch } from "../actions/gamesAction";
 import { fadeIn } from "../animation";
 import { getAsyncSearch } from "../redux/reducers/searchSlice";
 
@@ -12,9 +11,6 @@ const Nav = () => {
   const dispatch = useDispatch();
   const [textInput, setTextInput] = useState("");
 
-  // const [filter, setFilter] = useState("")
-  // const {search} = useSelector(state => state.search)
-  // const filteredJobs = useMemo(() => search.filter(job => job.startsWith(filter), [filter]);
 
   const submitSearch = (e) => {
     e.preventDefault();
