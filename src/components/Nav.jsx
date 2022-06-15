@@ -3,7 +3,7 @@ import { motion } from "framer-motion/dist/framer-motion";
 import { fadeIn } from "../animation";
 
 import styled from "styled-components";
-import { FaFilm } from "react-icons/fa";
+import { FaFilm, FaSearch } from "react-icons/fa";
 
 import { useDispatch } from "react-redux";
 import { getAsyncSearch } from "../redux/reducers/searchSlice";
@@ -32,7 +32,7 @@ const Nav = () => {
           value={textInput}
         />
         <button type="submit" onClick={submitSearch}>
-          search
+          <FaSearch />
         </button>
       </form>
     </StyledNav>
@@ -56,6 +56,9 @@ const StyledNav = styled(motion.div)`
 
     border-radius: 10px 0px 0px 10px;
   }
+  input:focus {
+    outline: 2px solid #ff7676;
+  }
 
   button {
     font-size: 1.5rem;
@@ -76,6 +79,7 @@ const Logo = styled(motion.div)`
   align-items: center;
 
   padding: 1rem;
+  font-family: "Abril Fatface", cursive;
 
   svg {
     font-size: 28px;
