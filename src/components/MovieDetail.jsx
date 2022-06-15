@@ -1,100 +1,88 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { motion } from "framer-motion/dist/framer-motion";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { smallImage } from "../util";
-import { getAsyncDetail } from "../redux/reducers/detailSlice";
 
-
+import {
+  FaGrinAlt,
+  FaUsers,
+  FaVideo,
+  FaClock,
+  FaStar,
+  FaRegStar,
+} from "react-icons/fa";
 
 const MovieDetail = ({ pathId }) => {
   const { detail } = useSelector((state) => state.detail);
-  // const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   dispatch(getAsyncDetail({id: pathId}));
-  // }, [dispatch]);
-
-
-  const navigate = useNavigate(); // usehistory
   const exitDetailHandler = (e) => {
     const element = e.target;
     if (element.classList.contains("shadow")) {
       document.body.style.overflow = "auto";
-      navigate("/"); // usehistory
+      navigate("/"); 
     }
   };
 
-  // const getRating = () => {
-  //   const stars = [];
-  //   const rating = Math.floor(game.rating);
+  const getStars = () => {
+    const stars = [];
+    const rating = detail.imDbRating;
 
-  //   for (let i = 1; i <= 5; i++) {
-  //     if (i <= rating) {
-  //       stars.push(<img alt="star" key={i} src={starFull} />);
-  //     } else {
-  //       stars.push(<img alt="star" key={i} src={starEmpty} />);
-  //     }
-  //   }
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        stars.push(<FaStar />);
+      } else {
+        stars.push(<FaRegStar />);
+      }
+    }
 
-  //   return stars;
-  // };
-
+    return stars;
+  };
 
   return (
     <>
-      {/* {!isLoading && ( */}
       <CardShadow className="shadow" onClick={exitDetailHandler}>
         <Detail layoutId={pathId}>
           <Stats>
             <div className="rating">
               <motion.h3 layoutId={`title ${pathId}`}>
-                {detail.title}
+                {detail.fullTitle}
               </motion.h3>
-              <p>Rating: {detail.imDbRating}</p>
             </div>
 
             <Info>
-              {/* <h3>description:</h3> */}
-              {/* <Platforms>
-                {detail.posters.map((data) => (
-                  <img
-                    key={data.posters.imDbId}
-                    src={data.posters.link}
-                    alt={data.posters.title}
-                  />
-                ))}
-              </Platforms> */}
+              <p>{detail.imDbRating}</p>
+              {getStars()}
             </Info>
           </Stats>
 
-          <Media>
+          <Poster>
             <motion.img
               layoutId={`image ${pathId}`}
               src={detail.image}
               alt={detail.title}
             />
-          </Media>
+          </Poster>
 
           <Description>
+            <span>
+              <FaGrinAlt /> Genres: {detail.genres}
+            </span>
+            <span>
+              <FaVideo /> Director: {detail.directors}
+            </span>
+            <span>
+              <FaUsers /> Casts: {detail.stars}
+            </span>
+            <span>
+              <FaClock /> {detail.runtimeStr}
+            </span>
             <p>{detail.plot}</p>
           </Description>
-
-          <div className="gallery">
-            {/* {detail.posters.map((poster) => ( */}
-              {/* <img */}
-                {/* // src={smallImage(screen.image, 1280)}
-                // key={detail.posters.imDbId}
-                // src={detail.posters.link}
-                // alt={detail.posters.title} */}
-              {/* // /> */}
-            {/* ))} */}
-          </div>
         </Detail>
       </CardShadow>
-      {/* )} */}
     </>
   );
 };
@@ -130,44 +118,64 @@ const Detail = styled(motion.div)`
   width: 80%;
   border-radius: 1rem;
   padding: 2rem 5rem;
+
   background: white;
   position: absolute;
   left: 10%;
+
   color: black;
   z-index: 10;
-  img {
-    width: 100%;
-  }
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  margin: 3rem 0;
 `;
 
 const Stats = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  img {
-    width: 2rem;
-    height: 2rem;
-    display: inline;
-  }
+
+  width: 100%;
 `;
+
 const Info = styled(motion.div)`
   text-align: center;
-`;
-const Platforms = styled(motion.div)`
-  display: flex;
-  justify-content: space-evenly;
-  img {
-    margin-left: 3rem;
+  svg {
+    fill: #ff7676;
   }
 `;
 
-const Media = styled(motion.div)`
+const Poster = styled(motion.div)`
   margin-top: 5rem;
+  display: flex;
+  align-items: center;
+  width: 50%;
+
   img {
-    width: 100%;
+    width: 80%;
   }
 `;
 
 const Description = styled(motion.div)`
-  margin: 5rem 0rem;
+  margin-top: 5rem;
+  width: 50%;
+
+  span {
+    display: flex;
+    margin: 20px 0;
+    align-items: center;
+
+    svg {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+
+    p{
+      margin-top: 40px;
+    }
+  }
 `;

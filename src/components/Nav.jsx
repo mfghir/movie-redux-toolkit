@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion/dist/framer-motion";
-import styled from "styled-components";
-
-import logo from "../img/logo.svg";
-import { useDispatch } from "react-redux";
 import { fadeIn } from "../animation";
+
+import styled from "styled-components";
+import { FaFilm } from "react-icons/fa";
+
+import { useDispatch } from "react-redux";
 import { getAsyncSearch } from "../redux/reducers/searchSlice";
 
 const Nav = () => {
   const dispatch = useDispatch();
   const [textInput, setTextInput] = useState("");
-
 
   const submitSearch = (e) => {
     e.preventDefault();
@@ -18,15 +18,11 @@ const Nav = () => {
     setTextInput("");
   };
 
-  // const clearSearched = () => {
-  //   dispatch({ type: "CLEAR_SEARCHED" });
-  // };
   return (
     <StyledNav variants={fadeIn} initial="hidden" animate="show">
-      {/* <Logo onClick={clearSearched}> */}
       <Logo>
-        <img src={logo} alt="logo" />
-        <h1>ignit</h1>
+        <FaFilm />
+        <h1>Movie Land</h1>
       </Logo>
 
       <form className="search">
@@ -77,10 +73,12 @@ const StyledNav = styled(motion.div)`
 const Logo = styled(motion.div)`
   display: flex;
   justify-content: center;
+  align-items: center;
+
   padding: 1rem;
 
-  img {
-    width: 2rem;
-    height: 2rem;
+  svg {
+    font-size: 28px;
+    margin-right: 10px;
   }
 `;

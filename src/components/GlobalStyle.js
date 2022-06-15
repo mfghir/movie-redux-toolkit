@@ -20,6 +20,7 @@ const GlobalStyles = createGlobalStyle`
     body{
         font-family: 'Montserrat', sans-serif;
         width: 100%;
+        background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
     }
     h2{
         font-size: 3rem;
@@ -33,7 +34,7 @@ const GlobalStyles = createGlobalStyle`
         padding: 1.5rem 0rem;
     }
     p{
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         line-height: 200%;
         color: #696969;
     }

@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import Movie from "../components/Movie";
 import MovieDetail from "../components/MovieDetail";
-
-// import { loadGames } from "../actions/gamesAction";
-
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+
 import {
   motion,
   AnimatePresence,
   AnimateSharedLayout,
 } from "framer-motion/dist/framer-motion";
 import { fadeIn } from "../animation";
+
 import { getAsyncPopularMovies } from "../redux/reducers/popularMoviesSlice";
 import { getAsyncPopularTvs } from "../redux/reducers/tvSlice";
 import { getAsyncUpcoming } from "../redux/reducers/upcomingSlice";
+
 import { getAsyncDetail } from "../redux/reducers/detailSlice";
 import { getAsyncSearch } from "../redux/reducers/searchSlice";
 
@@ -25,7 +25,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const location = useLocation();
-  const pathId = location.pathname;
+  const pathId = location.pathname.split("/")[2];
 
   useEffect(() => {
     dispatch(getAsyncPopularMovies());
@@ -33,24 +33,21 @@ const Home = () => {
     dispatch(getAsyncUpcoming());
     dispatch(getAsyncSearch());
 
-    dispatch(getAsyncDetail({ id:pathId }));
-  }, [dispatch]);
+    dispatch(getAsyncDetail({ id: pathId }));
+  }, [dispatch,pathId]);
 
   const { popularMovies } = useSelector((state) => state.popularMovies);
   const { upcoming } = useSelector((state) => state.upcoming);
   const { popularTvs } = useSelector((state) => state.popularTvs);
 
   const { search } = useSelector((state) => state.search);
-  // const { detail } = useSelector((state) => state.detail);
 
   return (
     <MovieList variants={fadeIn} initial="hidden" animate="show">
       <AnimateSharedLayout type="crossfade">
         <AnimatePresence>
-          {pathId && <MovieDetail pathId={pathId}  /> &&
-          console.log('first :' , pathId )
-
-          } 
+          {pathId && <MovieDetail pathId={pathId} /> &&
+            console.log("pathId:", pathId)}
         </AnimatePresence>
 
         {search.length ? (

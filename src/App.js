@@ -13,7 +13,7 @@ function App() {
       <Nav />
       <Routes>
         {/* <Route path={["/game/:id", "/"]} element={<Home />} /> */}
-        <Route path=":id" element={<Home />} />
+        <Route path="/:id" element={<MovieDetail />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </div>
